@@ -21,12 +21,17 @@ if st.button("Maak teams"):
         spelers_namen = [naam.strip().lower() for naam in names_input.split(",") if naam.strip()]
 
         # Ophalen van data via jouw Google Script link
-        url = "https://script.google.com/macros/s/AKfycbwNcRXJjIMIYYcRWKHuIWr_e-KxbzEsC-KrQeU_AFuinZtLKul9JGhpxsImYd_YeLJe/exec"
-        response = requests.get(url)
-        data = response.json()
+        # Spelers ophalen
+url_spelers = "https://script.google.com/macros/s/AKfycbwNcRXJjIMIYYcRWKHuIWr_e-KxbzEsC-KrQeU_AFuinZtLKul9JGhpxsImYd_YeLJe/exec"
+response_spelers = requests.get(url_spelers)
+data_spelers = response_spelers.json()
+df_spelers = pd.DataFrame(data_spelers)
 
-        df_spelers = pd.DataFrame(data)
-        df_regels = pd.DataFrame(data['Groepsregels'])
+# Groepsregels ophalen
+url_regels = "https://script.google.com/macros/s/AKfycbwNcRXJjIMIYYcRWKHuIWr_e-KxbzEsC-KrQeU_AFuinZtLKul9JGhpxsImYd_YeLJe/exec?sheet=Groepsregels"
+response_regels = requests.get(url_regels)
+data_regels = response_regels.json()
+df_regels = pd.DataFrame(data_regels)
 
         # Filter op ingevoerde namen
         df_spelers["naam_lower"] = df_spelers["naam"].str.lower()
