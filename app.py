@@ -20,9 +20,13 @@ if st.button("Maak teams"):
     else:
         spelers_namen = [naam.strip().lower() for naam in names_input.split(",") if naam.strip()]
 
-        # Ophalen van data via jouw Google Script link
-        # Spelers ophalen
-url_spelers = "https://script.google.com/macros/s/AKfycbwNcRXJjIMIYYcRWKHuIWr_e-KxbzEsC-KrQeU_AFuinZtLKul9JGhpxsImYd_YeLJe/exec"
+# Invoer check
+if not names_input.strip():
+    st.warning("Voer eerst minimaal één naam in.")
+    st.stop()
+
+# Spelers ophalen
+url_spelers = "https://script.google.com/macros/..."
 response_spelers = requests.get(url_spelers)
 data_spelers = response_spelers.json()
 df_spelers = pd.DataFrame(data_spelers)
