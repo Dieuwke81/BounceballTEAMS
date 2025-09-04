@@ -1,60 +1,40 @@
 import streamlit as st
 import pandas as pd
 import requests
-import random
 
-# -------------------
-# Instellingen
-# -------------------
-DATA_URL = "https://script.google.com/macros/s/AKfycbzesNHiNUOmCCiBVMgnULXWdHANF_rdFDJu8ag04O7C_SNyzXvWphfZponYj_nTSlgZ/exec"
-
-# -------------------
-# Functies
-# -------------------
-def haal_spelers_op():
-    try:
-        response = requests.get(DATA_URL)
-        response.raise_for_status()
-        data = response.json()
-        return pd.DataFrame(data)
-    except Exception as e:
-        st.error(f"Fout bij ophalen van data: {e}")
-        return pd.DataFrame()
-
-def genereer_teams(spelers_df, aantal_teams):
-    spelers_df = spelers_df.sample(frac=1).reset_index(drop=True)  # shuffle
-    teams = [[] for _ in range(aantal_teams)]
-
-    for idx, speler in spelers_df.iterrows():
-        teams[idx % aantal_teams].append(speler["naam"])
-    
-    return teams
-
-# -------------------
-# UI
-# -------------------
 st.title("Bounceball TEAMS")
 
-names_input = st.text_area("Voer spelersnamen in (gescheiden door komma's):", "")
-team_count = st.number_input("Aantal teams:", min_value=2, max_value=10, value=2, step=1)
+# Invoer van namen
+names_input = st.text_input("Voer spelersnamen in (gescheiden door komma's):", "")
+team_count = st.number_input("Aantal teams:", min_value=2, max_value=20, value=2, step=1)
+maak_teams = st.button("Maak teams")
 
-if st.button("Maak teams"):
-    spelers = haal_spelers_op()
+if maak_teams:
+    spelers_namen = [naam.strip().lower() for naam in names_input.split(",") if naam.strip()]
 
-    if spelers.empty:
-        st.warning("Geen spelersdata beschikbaar. Controleer je Google Script.")
-    else:
-        # Maak ingevoerde namen lower case & trimmen
-        ingevoerd = [naam.strip().lower() for naam in names_input.split(",") if naam.strip()]
+    url = "https://script.google.com/macros/s/AKfycbzesNHiNUOmCCiBVMgnULXWdHANF_rdFDJu8ag04O7C_SNyzXvWphfZponYj_nTSlgZ/exec"
 
-        # Kolom toevoegen om te filteren
-        spelers["naam_lower"] = spelers["naam"].str.lower()
-        geselecteerd = spelers[spelers["naam_lower"].isin(ingevoerd)].copy()
+    try:
+        response = requests.get(url)
+        data = response.json()  # <== dit is nu een LIST, geen dict
 
-        if geselecteerd.empty:
-            st.error("Geen van de ingevoerde namen komt overeen met de database.")
+        df_spelers = pd.DataFrame(data)
+
+        # Normaliseer namen
+        df_spelers["naam_lower"] = df_spelers["naam"].str.lower()
+        df_spelers = df_spelers[df_spelers["naam_lower"].isin(spelers_namen)].copy()
+        df_spelers.drop(columns=["naam_lower"], inplace=True)
+
+        if df_spelers.empty:
+            st.error("Geen spelers gevonden met de opgegeven namen.")
         else:
-            teams = genereer_teams(geselecteerd, team_count)
-            for i, team in enumerate(teams, 1):
-                st.subheader(f"Team {i}")
-                st.write(", ".join(team))
+            st.write("✅ Spelers ingeladen:")
+            st.dataframe(df_spelers)
+
+            # TODO: Voeg hier je team-generatie logica toe
+            st.success(f"Teams zouden nu gegenereerd worden (nog te implementeren).")
+
+    except requests.exceptions.RequestException as e:
+        st.error(f"Fout bij het ophalen van data: {e}")
+    except ValueError as e:
+        st.error(f"Ongeldige JSON ontvangen: {e}")
