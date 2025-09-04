@@ -38,12 +38,17 @@ df_spelers["naam_lower"] = df_spelers["naam"].str.lower()
 df_spelers = df_spelers[df_spelers["naam_lower"].isin(spelers_namen)].copy()
 df_spelers.drop(columns=["naam_lower"], inplace=True)
 
-        if df_spelers.empty:
-            st.error("Geen spelers gevonden met de opgegeven namen.")
-        else:
-            teams = generate_teams(df_spelers, df_regels, int(team_count))
-            for i, team in enumerate(teams):
-                st.subheader(f"Team {i+1} (Gem. rating: {team['average_rating']:.2f})")
-                for speler in team["players"]:
-                    keeper_tag = "🧤" if speler["keeper"] else ""
-                    st.write(f"- {speler['naam']} (Rating: {speler['rating']}) {keeper_tag}")
+# Filter op ingevoerde namen
+df_spelers["naam_lower"] = df_spelers["naam"].str.lower()
+df_spelers = df_spelers[df_spelers["naam_lower"].isin(spelers_namen)].copy()
+df_spelers.drop(columns=["naam_lower"], inplace=True)
+
+if df_spelers.empty:
+    st.error("Geen spelers gevonden met de opgegeven namen.")
+else:
+    teams = generate_teams(df_spelers, df_regels, int(team_count))
+    for i, team in enumerate(teams):
+        st.subheader(f"Team {i+1} (Gem. rating: {team['average_rating']:.2f})")
+        for speler in team["players"]:
+            keeper_tag = "🧤" if speler["keeper"] == "ja" else ""
+            st.write(f"- {speler['naam']} (Rating: {speler['rating']}) {keeper_tag}")
