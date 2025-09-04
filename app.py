@@ -6,7 +6,7 @@ import random
 
 # --- PAGINA CONFIG & LOGO ---
 st.set_page_config(page_title="Bounceball TEAMS", layout="centered")
-st.image("https://raw.githubusercontent.com/Dieuwke81/BounceballTEAMS/refs/heads/main/logo.png",layout="centered", width=200)
+st.image("https://raw.githubusercontent.com/Dieuwke81/BounceballTEAMS/refs/heads/main/logo.png", layout="centered")
 st.markdown("<h1 style='text-align: center;'>Bounceball<br>TEAMS</h1>", unsafe_allow_html=True)
 
 # --- INPUTVELDEN ---
