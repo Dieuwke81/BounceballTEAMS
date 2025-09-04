@@ -34,9 +34,9 @@ data_regels = response_regels.json()
 df_regels = pd.DataFrame(data_regels)
 
         # Filter op ingevoerde namen
-        df_spelers["naam_lower"] = df_spelers["naam"].str.lower()
-        df_spelers = df_spelers[df_spelers["naam_lower"].isin(spelers_namen)].copy()
-        df_spelers.drop(columns=["naam_lower"], inplace=True)
+df_spelers["naam_lower"] = df_spelers["naam"].str.lower()
+df_spelers = df_spelers[df_spelers["naam_lower"].isin(spelers_namen)].copy()
+df_spelers.drop(columns=["naam_lower"], inplace=True)
 
         if df_spelers.empty:
             st.error("Geen spelers gevonden met de opgegeven namen.")
