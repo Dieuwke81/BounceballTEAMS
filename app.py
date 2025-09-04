@@ -25,7 +25,7 @@ if st.button("Maak teams"):
         response = requests.get(url)
         data = response.json()
 
-        df_spelers = pd.DataFrame(data['Spelers'])
+        df_spelers = pd.DataFrame(data)
         df_regels = pd.DataFrame(data['Groepsregels'])
 
         # Filter op ingevoerde namen
