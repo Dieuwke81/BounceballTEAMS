@@ -25,12 +25,23 @@ if not names_input.strip():
     st.warning("Voer eerst minimaal één naam in.")
     st.stop()
 
-# Spelers ophalen
-url_spelers = "https://script.google.com/macros/..."
-response_spelers = requests.get(url_spelers)
-data_spelers = response_spelers.json()
-df_spelers = pd.DataFrame(data_spelers)
+import json
 
+url_spelers = "https://script.google.com/macros/s/AKfycbwNcRXJjIMIYYcRWKHuIWr_e-KxbzEsC-KrQeU_AFuinZtLKul9JGhpxsImYd_YeLJe/exec"
+response_spelers = requests.get(url_spelers)
+
+if response_spelers.status_code != 200:
+    st.error("Kon spelersgegevens niet ophalen (statuscode niet 200).")
+    st.stop()
+
+try:
+    data_spelers = response_spelers.json()
+except json.JSONDecodeError:
+    st.error("De spelersdata bevat geen geldige JSON. Controleer je Google Script uitvoer.")
+    st.text(response_spelers.text)  # toon wat je wél kreeg
+    st.stop()
+
+df_spelers = pd.DataFrame(data_spelers)
 # Groepsregels ophalen
 url_regels = "https://script.google.com/macros/s/AKfycbwNcRXJjIMIYYcRWKHuIWr_e-KxbzEsC-KrQeU_AFuinZtLKul9JGhpxsImYd_YeLJe/exec?sheet=Groepsregels"
 response_regels = requests.get(url_regels)
