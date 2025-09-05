@@ -137,38 +137,6 @@ if maak_teams_button and namen_input:
                 st.markdown(f"**Keeper(s):** {', '.join(keepers) if keepers else 'Geen'}")
 
             st.markdown(f"### 📊 Ratingverschil tussen hoogste en laagste team: `{round(verschil, 2)}`")
-# --- WHATSAPP NAAMCONVERSIE ONDERAAN PAGINA ---
-import re  # bovenaan app.py moet dit al staan of voeg het toe
-
-st.markdown("---")
-st.header("Namenlijst omzetten (voor invoer in het bovenste veld)")
-
-whatsapp_lijst = st.text_area(
-    "Plak hier je genummerde lijst (zoals uit WhatsApp):",
-    height=200,
-    placeholder="1. Jan\n2) Piet\n3 - Klaas\n4– Marie\n5 Jan"
-)
-
-if st.button("Zet om naar komma-gescheiden lijst"):
-    if whatsapp_lijst:
-        regels = whatsapp_lijst.strip().split("\n")
-
-        namen = []
-        for regel in regels:
-            regel = regel.strip()
-            # Regex: haal alles weg dat begint met getal + punt/haakje/streep/spatie/etc.
-            naam = re.sub(r"^\s*\d+[\.\)\-–\s]*", "", regel)
-            if naam:
-                namen.append(naam)
-
-        if namen:
-            komma_lijst = ", ".join(namen)
-            st.success("Kopieer deze lijst en plak hem in het bovenste veld:")
-            st.code(komma_lijst, language="text")
-        else:
-            st.warning("Er zijn geen namen herkend in de invoer.")
-    else:
-        st.warning("Plak eerst een lijst in het tekstveld hierboven.")
 
 
 st.markdown("<p style='text-align: right; font-size: 10px; color: green;'>Made by Dieuwke</p>", unsafe_allow_html=True)
