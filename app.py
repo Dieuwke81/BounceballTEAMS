@@ -13,8 +13,8 @@ st.markdown("<h1 style='text-align: center;'>Bounceball<br>TEAMS</h1>", unsafe_a
 namen_input = st.text_input("Voer spelersnamen in die meedoen (gescheiden door komma's):")
 aantal_teams = st.number_input("Aantal teams:", min_value=2, max_value=10, value=2, step=1)
 
-samen_input = st.text_input("Spelers die samen in een team moeten (bijv: Linda-Pim, Roy-Gijs):")
-niet_samen_input = st.text_input("Spelers die niet samen in een team mogen (bijv: Gijs-Lotte):")
+samen_input = st.text_input("Spelers die samen in een team moeten (bijv: Hein-Roel, Roy-Dieuwke):")
+niet_samen_input = st.text_input("Spelers die niet samen in een team mogen (bijv: Gijs-Bram, Mark R-Marielle):")
 
 maak_teams_button = st.button("Maak teams")
 
