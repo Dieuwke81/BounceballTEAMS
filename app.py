@@ -137,4 +137,4 @@ if maak_teams_button and namen_input:
                 st.markdown(f"**Keeper(s):** {', '.join(keepers) if keepers else 'Geen'}")
 
             st.markdown(f"### 📊 Ratingverschil tussen hoogste en laagste team: `{round(verschil, 2)}`")
-st.markdown("<p style='text-align: right; font-size: 10px; color: gray;'>Made by Dieuwke</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: right; font-size: 10px; color: green;'>Made by Dieuwke</p>", unsafe_allow_html=True)
