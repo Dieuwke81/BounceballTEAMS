@@ -132,7 +132,7 @@ if maak_teams_button and namen_input:
                 keepers = team_df[team_df["keeper"] == "ja"]["naam"].tolist()
 
                 st.markdown(f"### Team {i}")
-                st.dataframe(team_df[["naam", "rating", "keeper"]], hide_index=True)
+                st.dataframe(team_df[["naam", "keeper"]], hide_index=True)
                 st.markdown(f"**Gemiddelde rating:** {gemiddelde}")
                 st.markdown(f"**Keeper(s):** {', '.join(keepers) if keepers else 'Geen'}")
 
