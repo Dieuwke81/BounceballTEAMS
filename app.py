@@ -10,7 +10,7 @@ st.markdown("<div style='text-align: center;'><img src='https://raw.githubuserco
 st.markdown("<h1 style='text-align: center;'>Bounceball<br>TEAMS</h1>", unsafe_allow_html=True)
 
 # --- INPUTVELDEN ---
-namen_input = st.text_input("Voer spelersnamen in die meedoen (gescheiden door komma's):")
+namen_input = st.text_area("Voer spelersnamen in die meedoen:")
 aantal_teams = st.number_input("Aantal teams:", min_value=2, max_value=10, value=2, step=1)
 
 samen_input = st.text_input("Spelers die samen in een team moeten (bijv: Hein-Roel, Roy-Dieuwke):")
